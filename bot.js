@@ -43,7 +43,7 @@ const bot = module.exports = new builder.UniversalBot(connector,
         .images([
             new builder.CardImage(session)
                 .url(links.logo)
-                .alt('contoso_flowers')
+                .alt('Waseef Logo')
         ])
         .buttons([ // session.gettext(MainOptions.tenant)
             builder.CardAction.imBack(session, "Tenant" , session.gettext(MainOptions.tenant) ),
@@ -134,71 +134,80 @@ bot.dialog('tenant', [
        session.beginDialog("maintenanceDialog");
        else if (results.response.entity == "terminationDialog")
        session.beginDialog("terminationDialog");
-       session.endDialogWithResult({parm:"XXX"});
+       
        }
 ]).triggerAction({ matches: 'tenantIntent' });
 
 
 bot.dialog('maintenanceDialog', [
     (session) => {
-        var cards = getCardsAttachments();
 
-        // create reply with Carousel AttachmentLayout
-          var reply = new builder.Message(session)
-            .attachmentLayout(builder.AttachmentLayout.carousel)
-            .attachments(cards);
-    
-        session.send(reply);
+       // "https://docs.microsoft.com/en-us/aspnet/aspnet/overview/developing-apps-with-windows-azure/building-real-world-cloud-apps-with-windows-azure/data-storage-options/_static/image5.png"
+        var choices = [
+        {title: "Domestic Drianage System",subtitle:"Can you See Grease, Tree roots or Silted Drains ?",
+        imgUrl:"https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png",msg:"Driange System"}, 
 
-            function getCardsAttachments(session) {
-                return [
-                    new builder.HeroCard(session)
-                        .title('Azure Storage')
-                        .subtitle('Offload the heavy lifting of data center management')
-                        .text('Store and help protect your data. Get durable, highly available data storage across the globe and pay only for what you use.')
-                        .images([
-                            builder.CardImage.create(session, 'https://docs.microsoft.com/en-us/aspnet/aspnet/overview/developing-apps-with-windows-azure/building-real-world-cloud-apps-with-windows-azure/data-storage-options/_static/image5.png')
-                        ])
-                        .buttons([
-                            builder.CardAction.openUrl(session, 'https://azure.microsoft.com/en-us/services/storage/', 'Learn More')
-                        ]),
-            
-                    new builder.ThumbnailCard(session)
-                        .title('DocumentDB')
-                        .subtitle('Blazing fast, planet-scale NoSQL')
-                        .images([
-                            builder.CardImage.create(session, 'https://docs.microsoft.com/en-us/azure/documentdb/media/documentdb-introduction/json-database-resources1.png')
-                        ])
-                        .text('NoSQL service for highly available, globally distributed apps—take full advantage of SQL and JavaScript over document and key-value data without the hassles of on-premises or virtual machine-based cloud database options.')
-                        .buttons([
-                            builder.CardAction.openUrl(session, 'https://azure.microsoft.com/en-us/services/documentdb/', 'Learn More')
-                        ]),
-            
-                    new builder.HeroCard(session)
-                        .title('Azure Functions')
-                        .subtitle('Process events with a serverless code architecture')
-                        .text('An event-based serverless compute experience to accelerate your development. It can scale based on demand and you pay only for the resources you consume.')
-                        .images([
-                            builder.CardImage.create(session, 'https://msdnshared.blob.core.windows.net/media/2016/09/fsharp-functions2.png')
-                        ])
-                        .buttons([
-                            builder.CardAction.openUrl(session, 'https://azure.microsoft.com/en-us/services/functions/', 'Learn More')
-                        ]),
-            
-                    new builder.ThumbnailCard(session)
-                        .title('Cognitive Services')
-                        .subtitle('Build powerful intelligence into your applications to enable natural and contextual interactions')
-                        .text('Enable natural and contextual interaction with tools that augment users\' experiences using the power of machine-based intelligence. Tap into an ever-growing collection of powerful artificial intelligence algorithms for vision, speech, language, and knowledge.')
-                        .images([
-                            builder.CardImage.create(session, 'https://msdnshared.blob.core.windows.net/media/2017/03/Azure-Cognitive-Services-e1489079006258.png')
-                        ])
-                        .buttons([
-                            builder.CardAction.openUrl(session, 'https://azure.microsoft.com/en-us/services/cognitive-services/', 'Learn More')
-                        ])
-                ];
-            }
-       
+        {title: "Elevator System Problems",subtitle:"Power failure | Lights Off | Noisy bearings",
+        imgUrl:"https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png",msg:"Elevator Problem"},
+
+        {title: "irrigation System",subtitle:"No water coming | Zones Stopping | Sprinkles",
+        imgUrl:"https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png",msg:"Irrigation"},
+
+        {title: "Exhaust Fan",subtitle:"Motor Noise | Rattling | Power Failure | Moisture",
+        imgUrl:"https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png",msg:"Exhaust Fan"},
+
+        {title: "Water Heater Leakage",subtitle:"Can you see water Leaking from the Heater ?",
+        imgUrl:"https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png",msg:"Water Leakage"},
+
+        {title: "Water Heater Break Down",subtitle:"No Hot Water | Not Enough Water | Too Cold  ",
+        imgUrl:"https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png",msg:"Water Heater"},
+
+        {title: "Water Supply Cut",subtitle:"No water is coming from the water taps ?",
+        imgUrl:"https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png",msg:"Water Cut"},
+
+        {title: "LPG System",subtitle:"Offload the heavy lifting of LPG Systems",
+        imgUrl:"https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png",msg:"LPG"}
+        ];
+
+        
+    var cards = [];
+    var stringChoices = []
+
+
+        choices.forEach(element => {
+            var card = new builder.HeroCard(session)
+            .title(element.title)
+            .subtitle(element.subtitle)
+            .images([
+                builder.CardImage.create(session, element.imgUrl)
+            ])
+            .buttons([
+                builder.CardAction.imBack(session, element.msg, "Report")
+            ]);
+
+            cards.push(card);
+            stringChoices.push(element.msg)
+
+
+        });
+   
+  
+        const msg = new builder.Message(session)
+           .attachmentLayout(builder.AttachmentLayout.carousel) // This works
+          .attachments(cards)
+          .text('Choose a card')
+  
+        builder.Prompts.choice(session, msg,stringChoices,{
+          retryPrompt: msg
+        })
+             
     }
+    , (session,results) => {
+       session.dialogData.choice = results.response.entity;
+     builder.Prompts.text(session,"Please Describe Your Problem");
+    }  , (session,results) => {
+       session.send("PLease take a shot and send the picture to Me ");
+     }
 ]).triggerAction({ matches: 'maintenanceIntent' });
 
 bot.dialog('getAge', [
@@ -284,16 +293,8 @@ bot.dialog('Total', [
 
 bot.dialog('Help', [
     (session, args, next) => {
-        let message = '';
-        switch(args.action) {
-            case 'AddNumber':
-                message = 'You can either type the next number, or use **total** to get the total.';
-                break;
-            default:
-                message = 'You can type **add** to add numbers.';
-                break;
-        }
-        session.endDialog(message);
+       session.send("Welcome to the Help Dialog :) ") ;
+       
     }
 ]).triggerAction({
     matches: /^help/i, 
