@@ -4,6 +4,7 @@ var data = require("./Demodata.js");
 var Promise = require('bluebird');
 var request = require('request-promise').defaults({ encoding: null });
 var fs = require("fs");
+const dateShortcode = require('date-shortcode')
 
 const connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
@@ -17,7 +18,13 @@ var MainOptions = {
 
 var links = {
     // https://placeholdit.imgix.net/~text?txtsize=56&txt=Contoso%20Flowers&w=640&h=330
-    logo: "https://www.waseef.qa/en/wp-content/themes/waseef/images/logo-1.png?w=640&h=330"
+    logo: "https://www.waseef.qa/en/wp-content/themes/waseef/images/logo-1.png?w=640&h=330",
+    hintIcon: "https://cdn4.iconfinder.com/data/icons/sibcode-line-tech/512/light_on-512.png",
+    hintIconGreen: "data:image/png;base64,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",
+    welcomeIcon: "https://i.pinimg.com/736x/16/a2/c8/16a2c8deb445e2aa3ff5033a4ab2dd75--emoticon-emoji.jpg",
+    wrongIcon: "https://s3.envato.com/files/58667950/3d%20small%20people%20-%20negative%20symbol%20pr.jpg",
+    gearIcon: "http://superawesomevectors.com/wp-content/uploads/2014/08/3-black-gear-wheels-free-vector-icon-800x565.jpg",
+    elevatorIcon : "https://thumb7.shutterstock.com/display_pic_with_logo/2945839/342308177/stock-vector-elevator-icon-or-lift-icon-vector-illustration-342308177.jpg"
 
 }
 
@@ -36,8 +43,6 @@ const bot = module.exports = new builder.UniversalBot(connector,
     // conversation will start here
     (session, args, next) => {
 
-        // This Line Keeps the Welcome card from reaching the top of the screen
-        //session.send(" Hi from the root Dialog \n \n ");
 
 
         var welcomeCard = new builder.HeroCard(session)
@@ -54,8 +59,21 @@ const bot = module.exports = new builder.UniversalBot(connector,
             ]);
 
 
+
+
         session.send(new builder.Message(session)
             .addAttachment(welcomeCard));
+
+
+        session.sendTyping();
+        setTimeout(function () {
+            var card = createRichMessage(links.hintIconGreen, "  Type 'Help' or Cancel  at any Time ");
+            session.send(new builder.Message(session)
+                .addAttachment(card));
+            next();
+        }, 2500);
+
+
 
         // Launch the getName dialog using beginDialog
         // When beginDialog completes, control will be passed
@@ -64,7 +82,7 @@ const bot = module.exports = new builder.UniversalBot(connector,
         //  session.beginDialog('tenant');
     });
 
-bot.recognizer(new builder.RegExpRecognizer("tenantIntent", /^(tenant|mosta2ger)/i));
+bot.recognizer(new builder.RegExpRecognizer("tenantIntent", /^(tenant|mosta2ger|existing|existing tenant)/i));
 bot.recognizer(new builder.RegExpRecognizer("maintenanceIntent", /^(Maintenance)/i));
 
 // Send welcome when conversation with bot is started, by initiating the root dialog
@@ -86,13 +104,13 @@ bot.dialog('tenant', [
         if (args) {
             session.dialogData.isReprompt = args.isReprompt;
         }
-
         var msg = args.isReprompt ? "Please Re-Enter your Mobile Number  " : 'Please enter your mobile number';
 
         // prompt user
         builder.Prompts.text(session, msg);
     },
     (session, results, next) => {
+
         var mobileNumber = results.response;
 
         if (!mobileNumber || mobileNumber.trim().length < 8) {
@@ -100,9 +118,18 @@ bot.dialog('tenant', [
             if (session.dialogData.isReprompt) {
                 // Re-prompt ocurred
                 // Send back empty string
-                session.endDialogWithResult({ response: "We didn't recieve a valid Mobile Number" });
+                session.send(" Sorry! We didn't recieve a valid Mobile Number");
+                // session.endDialogWithResult({ response: "We didn't recieve a valid Mobile Number" });
+
+                session.send('Please register first before using this service ');
+
+                setTimeout(function () {
+                    session.replaceDialog("/");
+                }, 2000);
+
             } else {
                 // Set the flag
+
                 session.send('Sorry, Phone must be a valid mobile number (8 digits) ');
 
                 // Call replaceDialog to start the dialog over
@@ -122,26 +149,42 @@ bot.dialog('tenant', [
 
         // builder.Prompts.choice(session, "Which color?", "red|green|blue", { listStyle: builder.ListStyle.button });
         var tenant = data.find(x => x.mobileNumber == session.dialogData.mobileNumber)
+        session.userData.tenant = tenant;
+
         if (tenant) {
-            var img = "data:image/png;base64,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";
+            var card = createRichMessage(links.welcomeIcon, "I am happy to serve you today", "Welcome " + tenant.name + "!");
+            session.sendTyping();
+            setTimeout(function () {
+                var msg = new builder.Message(session)
+                    .addAttachment(card);
+                session.send(msg);
+                next();
+            }, 3000);
+        }
+        else {
+
+            var card = createRichMessage(links.wrongIcon, "Please register first before using this service", "Number is not registered");
+            session.sendTyping();
+            setTimeout(function () {
+                var msg = new builder.Message(session)
+                    .addAttachment(card);
+                session.send(msg);
+
+                setTimeout(function () {
+
+                    session.replaceDialog("/");
+                }, 2500);
 
 
-            var card = createRichMessage(img, "NIce to see you again " + tenant.name + "!");
-            var msg = new builder.Message(session)
-                .addAttachment(card);
-            session.send(msg);
+            }, 3000);
+
 
         }
-
-        session.sendTyping();
-        setTimeout(function () {
-            next();
-        }, 3000);
 
 
     }, (session, results, next) => {
 
-        builder.Prompts.choice(session, "How Can I Help You Today?", "Maintenance|Termination Letter", { listStyle: builder.ListStyle.button });
+        builder.Prompts.choice(session, "Please select a service to start", "Maintenance|Termination Letter", { listStyle: builder.ListStyle.button });
 
     }
     , (session, results, next) => {
@@ -186,7 +229,7 @@ bot.dialog('maintenanceDialog', [
         const msg = new builder.Message(session)
             .attachmentLayout(builder.AttachmentLayout.carousel) // This works
             .attachments(cards)
-            .text('Choose a card')
+            .text('Choose a category for the problem')
 
         builder.Prompts.choice(session, msg, stringChoices, {
             retryPrompt: msg
@@ -194,34 +237,22 @@ bot.dialog('maintenanceDialog', [
 
     }
     , (session, results) => {
-        session.dialogData.choice = results.response.entity;
-        builder.Prompts.text(session, "Please Describe Your Problem");
-    }, (session, results,next) => {
-        
-        builder.Prompts.attachment(session,"PLease take a shot and send the picture to Me ");
-        
+
+        // creating the ticket 
+        session.dialogData.ticket = {};
+        session.dialogData.ticket.category = results.response.entity;
+
+        builder.Prompts.text(session, "Please describe your problem");
+    }, (session, results, next) => {
+
+        session.dialogData.ticket.description = results.response;
+
+        builder.Prompts.attachment(session, "Please take a shot and send the picture to Me ");
+
     },
-    (session,results) => {
+    (session, results) => {
 
-          // Request file with Authentication Header
-          var requestWithToken = function (url) {
-            return obtainToken().then(function (token) {
-                return request({
-                    url: url,
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                        'Content-Type': 'application/octet-stream'
-                    }
-                });
-            });
-        };
 
-        // Promise for obtaining JWT Token (requested once)
-        var obtainToken = Promise.promisify(connector.getAccessToken.bind(connector));
-
-        var checkRequiresToken = function (message) {
-            return message.source === 'skype' || message.source === 'msteams';
-        };
 
         var msg = session.message;
         if (msg.attachments.length) {
@@ -233,15 +264,17 @@ bot.dialog('maintenanceDialog', [
                 ? requestWithToken(attachment.contentUrl)
                 : request(attachment.contentUrl);
 
-                request(attachment.contentUrl).pipe(fs.createWriteStream('metro.png'));
+            // using request module to write the image to the disk
+            request(attachment.contentUrl).pipe(fs.createWriteStream('metro.png'));
+            session.dialogData.ticket.picUrl = attachment.contentUrl;
 
             fileDownload.then(
                 function (response) {
 
                     // Send reply with attachment type & size
                     var reply = new builder.Message(session)
-                        .text('Attachment of %s type and size of %s bytes received.', attachment.contentType, response.length);
-                    session.send(reply);
+                        .text('Attachment of %s type and  received.', attachment.contentType);
+                    //  session.send(reply);
 
                 }).catch(function (err) {
                     console.log('Error downloading attachment:', { statusCode: err.statusCode, message: err.response.statusMessage });
@@ -251,12 +284,42 @@ bot.dialog('maintenanceDialog', [
 
             // No attachments were sent
             var reply = new builder.Message(session)
-                .text('Hi there! This sample is intented to show how can I receive attachments but no attachment was sent to me. Please try again sending a new message with an attachment.');
+                .text(" Hi " + session.userData.tenant.name + ' No attachment was sent to me. Please try again sending a new message with an attachment.');
             session.send(reply);
         }
 
-      
+        builder.Prompts.time(session, "What time would you like to schedule the visit?");
 
+    }, (session, results) => {
+
+        session.dialogData.ticket.time = builder.EntityRecognizer.resolveTime([results.response]);
+
+        session.send(" Wait please until i book your visit!");
+
+        session.sendTyping();
+        setTimeout(function () {
+           // session.replaceDialog("/");
+        }, 2000);
+
+        var getReceiptCard = function createThumbnailCard() {
+            return new builder.ThumbnailCard()
+                .title('Service Visit Confirmation')
+                .subtitle('Name — ' + session.userData.tenant.name + "\n\n Date — " + session.dialogData.ticket.time.toString().split("G",1))
+                .text('**Ticket confirmed** \n\n Address: ' + session.userData.tenant.property + " Building " + session.userData.tenant.building + " Flat " + session.userData.tenant.flatNumber  + " \n\n Description " + session.dialogData.ticket.description )
+                .images([ // https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+                    // links.gearIcon
+                    builder.CardImage.create(session,links.gearIcon )
+                ])
+                .buttons([
+                    builder.CardAction.imBack(session, "look's good ?", "good")
+                ]);
+        }
+
+
+        var card = getReceiptCard();
+
+        var msg = new builder.Message(session).addAttachment(card);
+        session.send(msg);
     }
 ]).triggerAction({ matches: 'maintenanceIntent' });
 
@@ -278,7 +341,12 @@ bot.dialog('Help', [
 var choices = [
     {
         title: "Domestic Drianage System", subtitle: "Can you See Grease, Tree roots or Silted Drains ?",
-        imgUrl: "https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png", msg: "Driange System"
+        imgUrl: "https://www.rpdnw.com/images/mains-icon-blue.png", msg: "Driange System"
+    },
+
+    {
+        title: "Water Heater Break Down", subtitle: "No Hot Water | Not Enough Water | Too Cold  ",
+        imgUrl: "https://actionplumbing.net/wp-content/uploads/2014/09/Heating-Icon.png", msg: "Water Heater"
     },
 
     {
@@ -288,32 +356,31 @@ var choices = [
 
     {
         title: "irrigation System", subtitle: "No water coming | Zones Stopping | Sprinkles",
-        imgUrl: "https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png", msg: "Irrigation"
+        imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBkZkNcz7FvE4tjoYxVqUIdXl_6Zo_lAZGMQTVOwrcCqwzmLMP", msg: "Irrigation"
     },
 
     {
         title: "Exhaust Fan", subtitle: "Motor Noise | Rattling | Power Failure | Moisture",
-        imgUrl: "https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png", msg: "Exhaust Fan"
-    },
-
-    {
-        title: "Water Heater Leakage", subtitle: "Can you see water Leaking from the Heater ?",
-        imgUrl: "https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png", msg: "Water Leakage"
-    },
-
-    {
-        title: "Water Heater Break Down", subtitle: "No Hot Water | Not Enough Water | Too Cold  ",
-        imgUrl: "https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png", msg: "Water Heater"
+        imgUrl: "https://marketplace.canva.com/MAB0h48dkxs/1/thumbnail/canva-blue-electric-fan-home-electrical-icon--MAB0h48dkxs.png", msg: "Exhaust Fan"
     },
 
     {
         title: "Water Supply Cut", subtitle: "No water is coming from the water taps ?",
-        imgUrl: "https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png", msg: "Water Cut"
+        imgUrl: "https://images.cdn3.stockunlimited.net/clipart/tap-water_2004333.jpg", msg: "Water Cut"
     },
 
     {
+        title: "Water Heater Leakage", subtitle: "Can you see water Leaking from the Heater ?",
+        imgUrl: "https://static1.squarespace.com/static/59f88890914e6b2a2c51cd1b/t/59fb20da692670568435c34a/1509553690665/slab-leak-repair.png", msg: "Water Leakage"
+    },
+
+    
+
+   
+
+    {
         title: "LPG System", subtitle: "Offload the heavy lifting of LPG Systems",
-        imgUrl: "https://d30y9cdsu7xlg0.cloudfront.net/png/20556-200.png", msg: "LPG"
+        imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlVkdfKElXNTlClpcswbnp9eLOmOku0-irLFoxIfeYUszJVnj4", msg: "LPG"
     }
 ];
 
@@ -374,4 +441,23 @@ var createRichMessage = function (img, msg, title) {
     return card;
 }
 
+// Request file with Authentication Header
+var requestWithToken = function (url) {
+    return obtainToken().then(function (token) {
+        return request({
+            url: url,
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/octet-stream'
+            }
+        });
+    });
+};
+
+// Promise for obtaining JWT Token (requested once)
+var obtainToken = Promise.promisify(connector.getAccessToken.bind(connector));
+
+var checkRequiresToken = function (message) {
+    return message.source === 'skype' || message.source === 'msteams';
+};
 
