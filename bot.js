@@ -26,7 +26,7 @@ var links = {
     gearIcon: "http://superawesomevectors.com/wp-content/uploads/2014/08/3-black-gear-wheels-free-vector-icon-800x565.jpg",
     elevatorIcon: "https://thumb7.shutterstock.com/display_pic_with_logo/2945839/342308177/stock-vector-elevator-icon-or-lift-icon-vector-illustration-342308177.jpg",
     sadIcon: "https://i.pinimg.com/originals/5a/f5/49/5af549fb8335bf9a9f78f8572e16e9cf.jpg",
-    byeIcon : "https://i.pinimg.com/originals/f1/61/94/f16194fb03829f449ba428e855d7af4c.png",
+    byeIcon: "https://i.pinimg.com/originals/f1/61/94/f16194fb03829f449ba428e855d7af4c.png",
     helpIcon: "data:image/png;base64,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"
 
 }
@@ -88,6 +88,7 @@ const bot = module.exports = new builder.UniversalBot(connector,
 bot.recognizer(new builder.RegExpRecognizer("tenantIntent", /^(tenant|mosta2ger|existing|existing tenant)/i));
 bot.recognizer(new builder.RegExpRecognizer("maintenanceIntent", /^(Maintenance)/i));
 bot.recognizer(new builder.RegExpRecognizer("terminationIntent", /^(termination|leaving|going home|termination letter|termination Letter)/i));
+bot.recognizer(new builder.RegExpRecognizer("registerationIntent", /^(Registeration|Register|Sign Up)/i));
 
 // Send welcome when conversation with bot is started, by initiating the root dialog
 bot.on('conversationUpdate', function (message) {
@@ -108,7 +109,7 @@ bot.dialog('tenant', [
         if (args) {
             session.dialogData.isReprompt = args.isReprompt;
         }
-        var msg = args.isReprompt ? "Please Re-Enter your Mobile Number  " : 'Please enter your mobile number to get SMS verification code';
+        var msg = args.isReprompt ? "Please Re-Enter your Mobile Number or type 'Register' to Sign Up " : 'Please enter your mobile number to get SMS verification code or type \'Register\' to Sign Up';
 
         // prompt user
         builder.Prompts.text(session, msg);
@@ -201,6 +202,106 @@ bot.dialog('tenant', [
     }
 ]).triggerAction({ matches: 'tenantIntent' });
 
+bot.dialog('registerationDialog', [
+    (session, args, next) => {
+
+
+        session.dialogData.tenant = {}
+        var card = createRichMessage(links.welcomeIcon, "Welcome to Registration  Dialog", ".");
+        var msg = new builder.Message(session)
+            .addAttachment(card);
+        session.send(msg);
+
+        session.sendTyping();
+        setTimeout(function () {
+            next();
+        }, 2000);
+
+    }, (session, results, next) => {
+
+        builder.Prompts.number(session, "Please enter your Mobile Number to recieve SMS verification Code");
+
+
+    }, (session, results, next) => {
+
+        session.dialogData.tenant.mobileNumber = results.response;
+        builder.Prompts.number(session, "Please enter your QID");
+
+
+    }, (session, results, next) => {
+
+        session.dialogData.tenant.QID = results.response;
+        builder.Prompts.text(session, "Please enter your First Name");
+
+
+    }, (session, results, next) => {
+
+        session.dialogData.tenant.name = results.response;
+        builder.Prompts.text(session, "Please enter your Last Name");
+
+
+    },
+    (session, results, next) => {
+
+        session.dialogData.tenant.name += " " + results.response;
+
+        builder.Prompts.choice(session, "Please specifiy the property name ", "Sailyia|Musaimeer|Barwa Al Sad|Barwa Village|Al Furjan Market", { listStyle: builder.ListStyle.button });
+
+    }, (session, results, next) => {
+
+
+        session.dialogData.tenant.property = results.response.entity;
+        builder.Prompts.text(session, "Please enter your Flat Number");
+
+    }, (session, results, next) => {
+
+        session.dialogData.tenant.flatNumber = results.response;
+        builder.Prompts.number(session, "Please enter your Building Number");
+
+
+    }, (session, results, next) => {
+        session.dialogData.tenant.building = results.response;
+
+        var txt = ""
+        txt += "\n\n **QID** " + session.dialogData.tenant.QID +
+            "\n\n **Name** " + session.dialogData.tenant.name +
+            "\n\n **Property** " + session.dialogData.tenant.property +
+            "\n\n **Building No** " + session.dialogData.tenant.building +
+            "\n\n **Flat** " + session.dialogData.tenant.flatNumber
+
+
+        var getConfirmationtCard = function createThumbnailCard() {
+            return new builder.ThumbnailCard()
+                .title('Registeration Dialog')
+                .subtitle('Please confirm below Data')
+                .text(txt)
+                .images([ // https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+                    // links.gearIcon
+                    builder.CardImage.create(session, links.gearIcon)
+                ])
+                .buttons([
+                    builder.CardAction.imBack(session, "Confirmed", "Please confirm")
+                ]);
+        }
+
+
+        var card = getConfirmationtCard();
+
+        var msg = new builder.Message(session).addAttachment(card);
+
+        data.push(session.dialogData.tenant);
+
+        builder.Prompts.text(session, msg);
+
+
+    }, (session, results) => {
+
+        session.replaceDialog("/");
+    }
+]).triggerAction({
+    matches: 'registerationIntent'
+});
+
 
 bot.dialog('terminationDialog', [
     (session, args, next) => {
@@ -223,7 +324,7 @@ bot.dialog('terminationDialog', [
     }, (session, results, next) => {
 
 
-        
+
 
         if (results.response.entity == "Leaving The Country" || results.response.entity == "Work Termination")
             builder.Prompts.attachment(session, "Please attach the letter for us");
@@ -241,7 +342,7 @@ bot.dialog('terminationDialog', [
 
 
     }
-]).triggerAction({ matches: 'terminationIntent',confirmPrompt : " This will cancel your current request, ok ?" });
+]).triggerAction({ matches: 'terminationIntent', confirmPrompt: " This will cancel your current request, ok ?" });
 
 
 bot.dialog('maintenanceDialog', [
@@ -363,7 +464,12 @@ bot.dialog('maintenanceDialog', [
         var card = getReceiptCard();
 
         var msg = new builder.Message(session).addAttachment(card);
-        session.send(msg);
+        //session.send(msg);
+
+        builder.Prompts.text(session,msg)
+    },(session,results) => {
+
+        session.replaceDialog("/");
     }
 ]).triggerAction({ matches: 'maintenanceIntent' });
 
@@ -373,27 +479,24 @@ bot.dialog('Help', [
 
         var txt = "\n\n***Help Dialog!*** \n\nWelcome to the Help Dialog \n\n You can use any of below command anytime"
         txt += "\n\n **Maintenance** to start the ticket opening process \n\n " +
-                "\n\n **Termination** to start the contract termination process " + 
-        "\n\n **Cancel** to stop and cancel any Request" + "\n\n **Help** to come back here"
+            "\n\n **Termination** to start the contract termination process " +
+            "\n\n **Cancel** to stop and cancel any Request" + "\n\n **Help** to come back here"
 
         var card = createRichMessage(links.helpIcon, txt, ".");
         var msg = new builder.Message(session)
             .addAttachment(card);
         session.send(msg);
-        
-       builder.Prompts.text(session," Press any Key to exist")
 
-    },(session,result)=>{
+        builder.Prompts.text(session, " Press any Key to exist")
+
+    }, (session, result) => {
 
         session.replaceDialog("/");
 
     }
 ]).triggerAction({
     matches: /^help/i,
-    onSelectAction: (session, args) => {
-
-        session.beginDialog(args.action, args);
-    }
+       confirmPrompt: "This will cancel your order. Are you sure?"
 });
 
 bot.dialog('Cancel', [
