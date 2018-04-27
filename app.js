@@ -14,6 +14,13 @@ server.get("/", restify.plugins.serveStatic({
 
   }));
 
+  server.get(
+    /\/(.*)?.*/,
+    restify.plugins.serveStatic({
+      directory: './css',
+    })
+  )
+
 //   server.get("/", function(req,res){
 
 // res.send(" Hi There");
